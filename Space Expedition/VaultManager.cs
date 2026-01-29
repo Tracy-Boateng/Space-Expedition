@@ -216,14 +216,14 @@
 		}
 
 		//ordered insert into inventory
-		//private void OrderedInsert(Artifact newItem)
-		//{
-		//	if (count == inventory.Length)
-		//		inventory = Grow(inventory);
+		private void OrderedInsert(Artifact newItem)
+		{
+			if (count == inventory.Length)
+				inventory = Grow(inventory);
 
-		//	int pos = 0;
-		//	while (pos < count && CompareNames(inventory[pos].DecodedName, newItem.DecodedName) < 0)
-		//		pos++;
+			int pos = 0;
+			while (pos < count && CompareNames(inventory[pos].DecodedName, newItem.DecodedName) < 0)
+				pos++;
 
 			//shift right
 			for (int i = count; i > pos; i--)
