@@ -185,16 +185,16 @@
 			count++;
 		}
 
-		//private static Artifact[] Grow(Artifact[] oldArr)
-		//{
-		//	int newSize = oldArr.Length * 2;
-		//	Artifact[] newArr = new Artifact[newSize];
+		private static Artifact[] Grow(Artifact[] oldArr)
+		{
+			int newSize = oldArr.Length * 2;
+			Artifact[] newArr = new Artifact[newSize];
 
-		//	for (int i = 0; i < oldArr.Length; i++)
-		//		newArr[i] = oldArr[i];
+			for (int i = 0; i < oldArr.Length; i++)
+				newArr[i] = oldArr[i];
 
-		//	return newArr;
-		//}
+			return newArr;
+		}
 
 		//binary search and returns index or -1
 		private int BinarySearchByDecodedName(string target)
@@ -216,22 +216,22 @@
 		}
 
 		//ordered insert into inventory
-		private void OrderedInsert(Artifact newItem)
-		{
-			if (count == inventory.Length)
-				inventory = Grow(inventory);
+		//private void OrderedInsert(Artifact newItem)
+		//{
+		//	if (count == inventory.Length)
+		//		inventory = Grow(inventory);
 
-			int pos = 0;
-			while (pos < count && CompareNames(inventory[pos].DecodedName, newItem.DecodedName) < 0)
-				pos++;
+		//	int pos = 0;
+		//	while (pos < count && CompareNames(inventory[pos].DecodedName, newItem.DecodedName) < 0)
+		//		pos++;
 
-			//shift right
-			for (int i = count; i > pos; i--)
-				inventory[i] = inventory[i - 1];
+		//	//shift right
+		//	for (int i = count; i > pos; i--)
+		//		inventory[i] = inventory[i - 1];
 
-			inventory[pos] = newItem;
-			count++;
-		}
+		//	inventory[pos] = newItem;
+		//	count++;
+		//}
 
 		
 		private int CompareNames(string a, string b)
