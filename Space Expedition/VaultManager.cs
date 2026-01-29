@@ -197,33 +197,33 @@
 		}
 
 		//binary search and returns index or -1
-		//private int BinarySearchByDecodedName(string target)
-		//{
-		//	int left = 0;
-		//	int right = count - 1;
+		private int BinarySearchByDecodedName(string target)
+		{
+			int left = 0;
+			int right = count - 1;
 
-		//	while (left <= right)
-		//	{
-		//		int mid = (left + right) / 2;
-		//		int cmp = CompareNames(inventory[mid].DecodedName, target);
+			while (left <= right)
+			{
+				int mid = (left + right) / 2;
+				int cmp = CompareNames(inventory[mid].DecodedName, target);
 
-		//		if (cmp == 0) return mid;
-		//		if (cmp < 0) left = mid + 1;
-		//		else right = mid - 1;
-		//	}
+				if (cmp == 0) return mid;
+				if (cmp < 0) left = mid + 1;
+				else right = mid - 1;
+			}
 
-		//	return -1;
-		//}
+			return -1;
+		}
 
 		//ordered insert into inventory
-		private void OrderedInsert(Artifact newItem)
-		{
-			if (count == inventory.Length)
-				inventory = Grow(inventory);
+		//private void OrderedInsert(Artifact newItem)
+		//{
+		//	if (count == inventory.Length)
+		//		inventory = Grow(inventory);
 
-			int pos = 0;
-			while (pos < count && CompareNames(inventory[pos].DecodedName, newItem.DecodedName) < 0)
-				pos++;
+		//	int pos = 0;
+		//	while (pos < count && CompareNames(inventory[pos].DecodedName, newItem.DecodedName) < 0)
+		//		pos++;
 
 			//shift right
 			for (int i = count; i > pos; i--)
