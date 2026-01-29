@@ -2,7 +2,6 @@
 {
 	internal static class Decoder
 	{
-		// ✅ METHOD IS INSIDE THE CLASS
 		public static string DecodeFull(string encodedName)
 		{
 			string result = "";
@@ -18,7 +17,6 @@
 
 				char letter = encodedName[i];
 
-				// Only handle A-Z
 				if (letter < 'A' || letter > 'Z')
 				{
 					i++;
@@ -27,7 +25,7 @@
 
 				i++;
 
-				// Read digits after the letter
+				//reading digits after the letter
 				int level = 0;
 				while (i < encodedName.Length && encodedName[i] >= '0' && encodedName[i] <= '9')
 				{
@@ -44,7 +42,6 @@
 			return result;
 		}
 
-		// 👇 these MUST also be inside the class
 		private static char DecodeChar(char letter, int level)
 		{
 			if (level <= 1)
