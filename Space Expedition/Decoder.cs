@@ -21,7 +21,17 @@
 
 		i++;
 
-		xx
+		int level = 0;
+		while (i < encodedName.Length && encodedName[i] >= '0' && encodedName[i] <= '9')
+		{
+			level = (level * 10) + (encodedName[i] - '0');
+			i++;
+		}
+
+		if (level == 0) level = 1;
+
+		char decodedChar = DecodeChar(letter, level);
+		result += decodedChar;
 	}
 
 	return result;
