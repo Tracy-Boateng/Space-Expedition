@@ -131,7 +131,7 @@
 					return;
 				}
 
-				// Inventory is already sorted, so we can binary search
+				//inventory is sorted -> binary search
 				int foundIndex = BinarySearchByDecodedName(newArtifact.DecodedName);
 
 				if (foundIndex != -1)
@@ -185,16 +185,16 @@
 			count++;
 		}
 
-		private static Artifact[] Grow(Artifact[] oldArr)
-		{
-			int newSize = oldArr.Length * 2;
-			Artifact[] newArr = new Artifact[newSize];
+		//private static Artifact[] Grow(Artifact[] oldArr)
+		//{
+		//	int newSize = oldArr.Length * 2;
+		//	Artifact[] newArr = new Artifact[newSize];
 
-			for (int i = 0; i < oldArr.Length; i++)
-				newArr[i] = oldArr[i];
+		//	for (int i = 0; i < oldArr.Length; i++)
+		//		newArr[i] = oldArr[i];
 
-			return newArr;
-		}
+		//	return newArr;
+		//}
 
 		//binary search and returns index or -1
 		private int BinarySearchByDecodedName(string target)
