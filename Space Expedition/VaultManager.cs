@@ -1,4 +1,6 @@
-﻿namespace SpaceExpedition
+﻿using System.Text;
+
+namespace SpaceExpedition
 {
 	internal class VaultManager
 	{
@@ -149,30 +151,51 @@
 			}
 		}
 
-		 //parsing one line into artifact
+		//parsing one line into artifact
 		private Artifact ParseArtifactLine(string line)
 		{
-			// So we split by '|'
-			string[] parts = line.Split('|');
+			// 5 fields total:
+			// encodedName, planet, discoveryDate, storageLocation, description
+			string[] parts = SplitByFirstCommas(line, 4);
 
-			if (parts.Length < 5)
-				return null;
+			if (parts == null) return null;
 
 			string encodedName = parts[0].Trim();
 			string planet = parts[1].Trim();
 			string discovery = parts[2].Trim();
 			string storage = parts[3].Trim();
-
-			string description = "";
-			for (int i = 4; i < parts.Length; i++)
-			{
-				if (i > 4) description += "|";
-				description += parts[i].Trim();
-			}
+			string description = parts[4].Trim();
 
 			string decodedName = Decoder.DecodeFull(encodedName);
 
 			return new Artifact(encodedName, decodedName, planet, discovery, storage, description);
+		}
+
+		// Splits by ONLY the first N commas, leaves the rest in the last part.
+		private string[] SplitByFirstCommas(string line, int commasToSplit)
+		{
+			string[] result = new string[commasToSplit + 1];
+
+			int start = 0;
+			int partIndex = 0;
+
+			for (int i = 0; i < line.Length && partIndex < commasToSplit; i++)
+			{
+				if (line[i] == ',')
+				{
+					result[partIndex] = line.Substring(start, i - start);
+					partIndex++;
+					start = i + 1;
+				}
+			}
+
+			// last part = the rest (description)
+			result[partIndex] = line.Substring(start);
+
+			// if we didn't find enough commas, bad line
+			if (partIndex != commasToSplit) return null;
+
+			return result;
 		}
 
 		//array helpers
