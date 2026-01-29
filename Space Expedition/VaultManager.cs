@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
-
-namespace SpaceExpedition
+﻿namespace SpaceExpedition
 {
 	internal class VaultManager
 	{
@@ -17,9 +13,7 @@ namespace SpaceExpedition
 
 		public int Count => count;
 
-		// -------------------------
-		// LOAD VAULT
-		// -------------------------
+		//load vault
 		public void LoadVault(string vaultFile)
 		{
 			if (!File.Exists(vaultFile))
@@ -50,9 +44,7 @@ namespace SpaceExpedition
 			}
 		}
 
-		// -------------------------
-		// SAVE SUMMARY
-		// -------------------------
+		//save summary
 		public void SaveSummary(string outputFile)
 		{
 			try
@@ -71,9 +63,7 @@ namespace SpaceExpedition
 			}
 		}
 
-		// -------------------------
-		// VIEW INVENTORY
-		// -------------------------
+		//view inventory
 		public void PrintInventory()
 		{
 			if (count == 0)
@@ -90,9 +80,8 @@ namespace SpaceExpedition
 			Console.WriteLine("---------------------------------------------\n");
 		}
 
-		// -------------------------
-		// SORT INVENTORY (Insertion Sort)
-		// -------------------------
+
+		//insertion sort
 		public void SortInventory()
 		{
 			for (int i = 1; i < count; i++)
@@ -110,11 +99,7 @@ namespace SpaceExpedition
 			}
 		}
 
-		// -------------------------
-		// ADD ARTIFACT BY NAME (reads artifact file)
-		// user types: "mystic_orb"
-		// file: "mystic_orb.txt"
-		// -------------------------
+		//add artifact by name 
 		public void AddArtifactByName(string artifactName)
 		{
 			string fileName = artifactName + ".txt";
@@ -139,12 +124,12 @@ namespace SpaceExpedition
 					return;
 				}
 
-				//Artifact newArtifact = ParseArtifactLine(line.Trim());
-				//if (newArtifact == null)
-				//{
-				//	Console.WriteLine("ERROR: Could not parse artifact file.");
-				//	return;
-				//} 888888888888
+				Artifact newArtifact = ParseArtifactLine(line.Trim());
+				if (newArtifact == null)
+				{
+					Console.WriteLine("ERROR: Could not parse artifact file.");
+					return;
+				}
 
 				// Inventory is already sorted, so we can binary search
 				int foundIndex = BinarySearchByDecodedName(newArtifact.DecodedName);
@@ -164,38 +149,31 @@ namespace SpaceExpedition
 			}
 		}
 
-		// -------------------------
-		// PARSING ONE LINE INTO ARTIFACT
-		// Expected: encodedName | planet | discoveryDate | storageLocation | description
-		// -------------------------
-		//private Artifact ParseArtifactLine(string line)
-		//{
-		//	// Some files might use commas, but assignment says pipe separators.
-		//	// So we split by '|'
-		//	string[] parts = line.Split('|');
+		 //parsing one line into artifact
+		private Artifact ParseArtifactLine(string line)
+		{
+			// So we split by '|'
+			string[] parts = line.Split('|');
 
-		//	// Need at least 5 parts (description can contain separators sometimes)
-		//	if (parts.Length < 5)
-		//		return null;
+			if (parts.Length < 5)
+				return null;
 
-		//	string encodedName = parts[0].Trim();
-		//	string planet = parts[1].Trim();
-		//	string discovery = parts[2].Trim();
-		//	string storage = parts[3].Trim();
+			string encodedName = parts[0].Trim();
+			string planet = parts[1].Trim();
+			string discovery = parts[2].Trim();
+			string storage = parts[3].Trim();
 
-		//	// Description might contain extra '|' if file is messy,
-		//	// so we rebuild it from part 4 onward.
-		//	string description = "";
-		//	for (int i = 4; i < parts.Length; i++)
-		//	{
-		//		if (i > 4) description += "|";
-		//		description += parts[i].Trim();
-		//	}
+			string description = "";
+			for (int i = 4; i < parts.Length; i++)
+			{
+				if (i > 4) description += "|";
+				description += parts[i].Trim();
+			}
 
-		//	string decodedName = Decoder.DecodeFull(encodedName);
+			string decodedName = Decoder.DecodeFull(encodedName);
 
-		//	return new Artifact(encodedName, decodedName, planet, discovery, storage, description);
-		//}
+			return new Artifact(encodedName, decodedName, planet, discovery, storage, description);
+		}
 
 		//array helpers
 		private void AddToEnd(Artifact a)
