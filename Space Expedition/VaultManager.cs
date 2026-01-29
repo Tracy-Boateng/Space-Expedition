@@ -197,9 +197,7 @@ namespace SpaceExpedition
 		//	return new Artifact(encodedName, decodedName, planet, discovery, storage, description);
 		//}
 
-		// -------------------------
-		// ARRAY HELPERS
-		// -------------------------
+		//array helpers
 		private void AddToEnd(Artifact a)
 		{
 			if (count == inventory.Length)
@@ -214,17 +212,13 @@ namespace SpaceExpedition
 			int newSize = oldArr.Length * 2;
 			Artifact[] newArr = new Artifact[newSize];
 
-			// manual copy (NO Array.Copy)
 			for (int i = 0; i < oldArr.Length; i++)
 				newArr[i] = oldArr[i];
 
 			return newArr;
 		}
 
-		// -------------------------
-		// BINARY SEARCH (by decoded name)
-		// returns index or -1
-		// -------------------------
+		//binary search and returns index or -1
 		private int BinarySearchByDecodedName(string target)
 		{
 			int left = 0;
@@ -243,9 +237,7 @@ namespace SpaceExpedition
 			return -1;
 		}
 
-		// -------------------------
-		// ORDERED INSERT into sorted inventory
-		// -------------------------
+		//ordered insert into inventory
 		private void OrderedInsert(Artifact newItem)
 		{
 			if (count == inventory.Length)
@@ -255,7 +247,7 @@ namespace SpaceExpedition
 			while (pos < count && CompareNames(inventory[pos].DecodedName, newItem.DecodedName) < 0)
 				pos++;
 
-			// shift right
+			//shift right
 			for (int i = count; i > pos; i--)
 				inventory[i] = inventory[i - 1];
 
@@ -263,12 +255,9 @@ namespace SpaceExpedition
 			count++;
 		}
 
-		// -------------------------
-		// SIMPLE STRING COMPARE (no StringComparison)
-		// -------------------------
+		
 		private int CompareNames(string a, string b)
 		{
-			// beginner-friendly compare by using lowercase
 			a = a.ToLower();
 			b = b.ToLower();
 			return string.Compare(a, b);
