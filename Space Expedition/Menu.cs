@@ -15,22 +15,22 @@ namespace SpaceExpedition
 		{
 			while (true)
 			{
-				Console.WriteLine("SPACE EXPEDITION - GALACTIC VAULT");
-				Console.WriteLine("1) Add Artifact (from journey log file)");
+				Console.WriteLine("SPACE EXPEDITION -> GALACTIC VAULT");
+				Console.WriteLine("1) Add Artifact from journey log file");
 				Console.WriteLine("2) View Inventory");
-				Console.WriteLine("0) Save & Exit");
+				Console.WriteLine("0) Save and Exit");
 				Console.Write("Choose: ");
 
 				string choice = Console.ReadLine();
 
 				if (choice == "1")
 				{
-					Console.Write("Type artifact file name (without .txt): ");
+					Console.Write("Type the artifact file name without .extension: ");
 					string name = Console.ReadLine().Trim();
 
 					if (name.Length == 0)
 					{
-						Console.WriteLine("Invalid name.");
+						Console.WriteLine("Enter a valid name.");
 					}
 					else
 					{
@@ -46,12 +46,12 @@ namespace SpaceExpedition
 				else if (choice == "0")
 				{
 					vault.SaveSummary("expedition_summary.txt");
-					Console.WriteLine("Bye explorer.");
+					Console.WriteLine("Exit explorer.");
 					break;
 				}
 				else
 				{
-					Console.WriteLine("Invalid option.\n");
+					Console.WriteLine("Option is invalid.\n");
 				}
 			}
 		}

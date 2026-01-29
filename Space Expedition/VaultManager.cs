@@ -18,7 +18,6 @@ namespace SpaceExpedition
 		//load vault
 		public void LoadVault(string vaultFile)
 		{
-			// ✅ make it look in the program's run folder (bin\Debug\netX.X)
 			vaultFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, vaultFile);
 
 			if (!File.Exists(vaultFile))
@@ -65,7 +64,7 @@ namespace SpaceExpedition
 			}
 			catch
 			{
-				Console.WriteLine("ERROR: Could not save expedition summary.");
+				Console.WriteLine("ERROR: The expedition summary was not saved.");
 			}
 		}
 
@@ -74,16 +73,16 @@ namespace SpaceExpedition
 		{
 			if (count == 0)
 			{
-				Console.WriteLine("Inventory is empty.");
+				Console.WriteLine("This inventory is empty.");
 				return;
 			}
 
-			Console.WriteLine("\n--- Galactic Vault (Sorted by Decoded Name) ---");
+			Console.WriteLine("\n *Galactic Vault -> Sorted by the Decoded Name* ");
 			for (int i = 0; i < count; i++)
 			{
 				Console.WriteLine($"{i + 1}) {inventory[i]}");
 			}
-			Console.WriteLine("---------------------------------------------\n");
+			Console.WriteLine();
 		}
 
 
@@ -112,7 +111,7 @@ namespace SpaceExpedition
 
 			if (!File.Exists(fileName))
 			{
-				Console.WriteLine($"ERROR: Could not find file {fileName}");
+				Console.WriteLine($"ERROR: {fileName} was not found");
 				return;
 			}
 
@@ -142,12 +141,12 @@ namespace SpaceExpedition
 
 				if (foundIndex != -1)
 				{
-					Console.WriteLine("That artifact already exists in the vault. No duplicate added.");
+					Console.WriteLine("Artifact already exists in the vault. No duplicate added.");
 					return;
 				}
 
 				OrderedInsert(newArtifact);
-				Console.WriteLine($"Added: {newArtifact.DecodedName} (Inserted in sorted position)");
+				Console.WriteLine($"Added: {newArtifact.DecodedName} and Inserted in sorted position");
 			}
 			catch
 			{
@@ -158,8 +157,6 @@ namespace SpaceExpedition
 		//parsing one line into artifact
 		private Artifact ParseArtifactLine(string line)
 		{
-			// 5 fields total:
-			// encodedName, planet, discoveryDate, storageLocation, description
 			string[] parts = SplitByFirstCommas(line, 4);
 
 			if (parts == null) return null;
@@ -175,7 +172,6 @@ namespace SpaceExpedition
 			return new Artifact(encodedName, decodedName, planet, discovery, storage, description);
 		}
 
-		// Splits by ONLY the first N commas, leaves the rest in the last part.
 		private string[] SplitByFirstCommas(string line, int commasToSplit)
 		{
 			string[] result = new string[commasToSplit + 1];
@@ -193,10 +189,10 @@ namespace SpaceExpedition
 				}
 			}
 
-			// last part = the rest (description)
+			
 			result[partIndex] = line.Substring(start);
 
-			// if we didn't find enough commas, bad line
+			
 			if (partIndex != commasToSplit) return null;
 
 			return result;
@@ -223,7 +219,7 @@ namespace SpaceExpedition
 			return newArr;
 		}
 
-		//binary search and returns index or -1
+		//binary search
 		private int BinarySearchByDecodedName(string target)
 		{
 			int left = 0;
@@ -231,34 +227,55 @@ namespace SpaceExpedition
 
 			while (left <= right)
 			{
-				int mid = (left + right) / 2;
-				int cmp = CompareNames(inventory[mid].DecodedName, target);
+				int middle = (left + right) / 2;
 
-				if (cmp == 0) return mid;
-				if (cmp < 0) left = mid + 1;
-				else right = mid - 1;
+				int comparison =
+					CompareNames(inventory[middle].DecodedName, target);
+
+				if (comparison == 0)
+				{
+					return middle;
+				}
+
+				if (comparison < 0)
+				{
+					left = middle + 1;
+				}
+				else
+				{
+					right = middle - 1;
+				}
 			}
 
 			return -1;
 		}
 
+
 		//ordered insert into inventory
 		private void OrderedInsert(Artifact newItem)
 		{
 			if (count == inventory.Length)
+			{
 				inventory = Grow(inventory);
+			}
 
-			int pos = 0;
-			while (pos < count && CompareNames(inventory[pos].DecodedName, newItem.DecodedName) < 0)
-				pos++;
+			int insertIndex = 0;
 
-			//shift right
-			for (int i = count; i > pos; i--)
+			while (insertIndex < count &&
+				   CompareNames(inventory[insertIndex].DecodedName, newItem.DecodedName) < 0)
+			{
+				insertIndex++;
+			}
+
+			for (int i = count; i > insertIndex; i--)
+			{
 				inventory[i] = inventory[i - 1];
+			}
 
-			inventory[pos] = newItem;
+			inventory[insertIndex] = newItem;
 			count++;
 		}
+
 
 
 		private int CompareNames(string a, string b)

@@ -25,9 +25,9 @@
 			return $"{EncodedName} | {Planet} | {DiscoveryDate} | {StorageLocation} | {Description}";
 		}
 
-		//public override string ToString()
-		//{
-		//	return $"{DecodedName} | {Planet} | {DiscoveryDate} | {StorageLocation} | {Description}";
-		//}
+		public override string ToString()
+		{
+			return $"{DecodedName} | {Planet} | {DiscoveryDate} | {StorageLocation} | {Description}";
+		}
 	}
 }

@@ -4,43 +4,47 @@
 	{
 		public static string DecodeFull(string encodedName)
 		{
-			string result = "";
-			int i = 0;
+			string decodedName = "";
+			int index = 0;
 
-			while (i < encodedName.Length)
+			while (index < encodedName.Length)
 			{
-				// Skip separators
-				while (i < encodedName.Length && (encodedName[i] == '|' || encodedName[i] == ' '))
-					i++;
-
-				if (i >= encodedName.Length) break;
-
-				char letter = encodedName[i];
-
-				if (letter < 'A' || letter > 'Z')
+				if (encodedName[index] == '|' || encodedName[index] == ' ')
 				{
-					i++;
+					index++;
 					continue;
 				}
 
-				i++;
+				char letter = encodedName[index];
 
-				//reading digits after the letter
-				int level = 0;
-				while (i < encodedName.Length && encodedName[i] >= '0' && encodedName[i] <= '9')
+				if (letter < 'A' || letter > 'Z')
 				{
-					level = (level * 10) + (encodedName[i] - '0');
-					i++;
+					index++;
+					continue;
 				}
 
-				if (level == 0) level = 1;
+				index++; 
+
+				int level = 0;
+				while (index < encodedName.Length &&
+					   encodedName[index] >= '0' &&
+					   encodedName[index] <= '9')
+				{
+					level = level * 10 + (encodedName[index] - '0');
+					index++;
+				}
+
+				if (level == 0)
+					level = 1;
 
 				char decodedChar = DecodeChar(letter, level);
-				result += decodedChar;
+
+				decodedName += decodedChar;
 			}
 
-			return result;
+			return decodedName;
 		}
+
 
 		private static char DecodeChar(char letter, int level)
 		{
