@@ -18,6 +18,9 @@ namespace SpaceExpedition
 		//load vault
 		public void LoadVault(string vaultFile)
 		{
+			// ✅ make it look in the program's run folder (bin\Debug\netX.X)
+			vaultFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, vaultFile);
+
 			if (!File.Exists(vaultFile))
 			{
 				Console.WriteLine($"ERROR: Could not find {vaultFile}");
@@ -45,6 +48,7 @@ namespace SpaceExpedition
 				Console.WriteLine("ERROR: Could not read the vault file.");
 			}
 		}
+
 
 		//save summary
 		public void SaveSummary(string outputFile)
